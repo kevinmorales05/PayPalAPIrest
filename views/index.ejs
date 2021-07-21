@@ -5,15 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Document</title>
+        <link rel=StyleSheet href="../css/index.css" type="text/css" >
     </head>
     <body>
      <!-- <h1>Paypal</h1>-->
-     <h1>Procesando su pedido...</h1>
+     <div style=" background-color: rgb(46, 54, 76, 0.8);
+     align-items: center;
+     justify-content: center;
+     display: flex; width: 100%; height: 100%; flex-direction: column; position:absolute; z-index: 0;">
+     <img src="https://firebasestorage.googleapis.com/v0/b/showmobile-2176c.appspot.com/o/logos%2Fpaypal.png?alt=media&token=b05253a9-82c0-49a7-a7f0-50ffa983d597" 
+     style="margin: 2px; width: 200px; height: 200px; ">
+     <h1 style="color: white; text-align: center; ;">Procesando su pedido...</h1>
         <form name="f1" action="/paypal">
             <form action="/paypal">
-                <button type="submit">Pay</button>
+               
             </form>
             
         </form>
+    </div>
     </body>
 </html>
