@@ -30,6 +30,9 @@ app.get("/", (req, res) => {
 
 //creacion de la ruta /paypal
 app.get("/paypal", (req, res) => {
+   console.log('FUNCION GET')
+    console.log("req", req);
+    console.log("res", res);
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -62,6 +65,8 @@ app.get("/paypal", (req, res) => {
     };
 
     paypal.payment.create(create_payment_json, function(error, payment) {
+        console.log('FUNCION CREATE')
+        console.log("payment", payment)
         if (error) {
             throw error;
         } else {
@@ -77,6 +82,9 @@ app.get("/paypal", (req, res) => {
 //manejar el exito
 app.get("/success", (req, res) => {
     //informacion del pago
+    console.log('FUNCION get exito')
+        console.log("req", req)
+        console.log("res", res)
     var PayerID = req.query.PayerID;
     var paymentId = req.query.paymentId;
     var execute_payment_json = {
