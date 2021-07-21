@@ -1,20 +1,8 @@
 const express = require("express");
-const engines = require("consolidate");
+const engines = require("consolidate"); //esta de mas
 const paypal = require("paypal-rest-sdk");
 
-const app = express();
 
-app.engine("ejs", engines.ejs);
-app.set("views", "./views");
-app.set("view engine", "ejs");
-
-app.get("/", (req, res) => {
-    res.render("index");
-});
-
-
-
-//configuracion de Paypal, colocar el id del cliente y su secreto
 
 paypal.configure({
     mode: "sandbox", //sandbox or live
@@ -24,14 +12,17 @@ paypal.configure({
         "EGxtbS-6um8OWnOgDquuF7dltserVNio9-vuvaRvLdy6Idh-1NDDSoQf1WN4Y5bkaLGvNeOhL_Gt8RPQ"
 });
 
-app.get("/", (req, res) => {
-    res.render("index");
-});
+const app = express();
 
+
+//configuracion de Paypal, colocar el id del cliente y su secreto
 const cost = null;
-//creacion de la ruta /paypal
-app.get("/pay/:cost", (req, res) => {
+
+
+//creacion de la ruta /pay
+app.get('/pay/:cost', (req, res) => {
    cost = req.params.cost; //para colocar un precio variable
+
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -46,8 +37,8 @@ app.get("/pay/:cost", (req, res) => {
                 item_list: {
                     items: [
                         {
-                            name: "item",
-                            sku: "item",
+                            name: "Entrada para evento virtual",
+                            sku: "entrada",
                             price: cost,
                             currency: "USD",
                             quantity: 1
@@ -58,21 +49,22 @@ app.get("/pay/:cost", (req, res) => {
                     currency: "USD",
                     total: cost
                 },
-                description: "This is the payment description."
+                description: "El mejor show del mundo"
             }
         ]
     };
 
     paypal.payment.create(create_payment_json, function(error, payment) {
-        console.log('FUNCION CREATE')
-        console.log("payment", payment)
+        
         if (error) {
             throw error;
         } else {
-            console.log("Create Payment Response");
-            console.log(payment);
-            res.redirect(payment.links[1].href); //redirijo a los links de pago
-            //res.send('Ok!')
+           
+            for (let i=0; i<payment.links.length; i++){
+                if(payment.links[i].rel === 'approval_url'){
+                    res.redirect(payment.links[i].href);
+                }
+            }
           
         }
     });
@@ -81,7 +73,6 @@ app.get("/pay/:cost", (req, res) => {
 //manejar el exito
 app.get("/success", (req, res) => {
     //informacion del pago
-    
     var PayerID = req.query.PayerID;
     var paymentId = req.query.paymentId;
     var execute_payment_json = {
@@ -104,15 +95,13 @@ app.get("/success", (req, res) => {
             console.log(error.response);
             throw error;
         } else {
-            console.log("Get Payment Response");
-            console.log(JSON.stringify(payment));
-            res.render("success");
+            res.sendFile(__dirname + "/success.html")
         }
     });
 });
 //cancelacion del pago
 app.get("cancel", (req, res) => {
-    res.render("cancel");
+    res.send("Cancelled");
 });
 
 
