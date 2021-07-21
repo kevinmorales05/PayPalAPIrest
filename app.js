@@ -39,8 +39,8 @@ app.get("/paypal", (req, res) => {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: "./views/success",
-            cancel_url: ".views/cancel"
+            return_url: "https://localhost/views/success",
+            cancel_url: "https://localhost/views/cancel"
         },
         transactions: [
             {
