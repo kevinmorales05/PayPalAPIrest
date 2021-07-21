@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 const cost = null;
 //creacion de la ruta /paypal
-app.get("/paypal/:cost", (req, res) => {
+app.get("/pay/:cost", (req, res) => {
    cost = req.params.cost; //para colocar un precio variable
     var create_payment_json = {
         intent: "sale",
@@ -81,9 +81,7 @@ app.get("/paypal/:cost", (req, res) => {
 //manejar el exito
 app.get("/success", (req, res) => {
     //informacion del pago
-    console.log('FUNCION get exito')
-        console.log("req", req)
-        console.log("res", res)
+    
     var PayerID = req.query.PayerID;
     var paymentId = req.query.paymentId;
     var execute_payment_json = {
@@ -92,7 +90,7 @@ app.get("/success", (req, res) => {
             {
                 amount: {
                     currency: "USD",
-                    total: "1.00"
+                    total: cost
                 }
             }
         ]
