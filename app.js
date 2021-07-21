@@ -16,7 +16,7 @@ const app = express();
 
 
 //configuracion de Paypal, colocar el id del cliente y su secreto
-const cost = null;
+let cost = null;
 
 
 //creacion de la ruta /pay
