@@ -36,8 +36,8 @@ app.get("/paypal", (req, res) => {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: "https://shielded-inlet-17175.herokuapp.com/success",
-            cancel_url: "https://shielded-inlet-17175.herokuapp.com/cancel"
+            return_url: "https://shielded-inlet-17175.herokuapp.com/views/success",
+            cancel_url: "https://shielded-inlet-17175.herokuapp.com/views/cancel"
         },
         transactions: [
             {
