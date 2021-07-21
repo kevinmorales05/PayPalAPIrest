@@ -28,11 +28,10 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+const cost = null;
 //creacion de la ruta /paypal
-app.get("/paypal", (req, res) => {
-   console.log('FUNCION GET')
-    console.log("req", req);
-    console.log("res", res);
+app.get("/paypal/:cost", (req, res) => {
+   cost = req.params.cost; //para colocar un precio variable
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -49,7 +48,7 @@ app.get("/paypal", (req, res) => {
                         {
                             name: "item",
                             sku: "item",
-                            price: "1.00",
+                            price: cost,
                             currency: "USD",
                             quantity: 1
                         }
@@ -57,7 +56,7 @@ app.get("/paypal", (req, res) => {
                 },
                 amount: {
                     currency: "USD",
-                    total: "1.00"
+                    total: cost
                 },
                 description: "This is the payment description."
             }
